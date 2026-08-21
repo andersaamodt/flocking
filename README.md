@@ -22,7 +22,7 @@ the actor's view; publishing makes an inspectable judgment that others may
 voluntarily adopt. No action deletes a Nostr event or prevents its author from
 publishing.
 
-| flocking action | Traditional moderator action |
+| Flocking action | Traditional moderator action |
 | --- | --- |
 | **Choose whose judgments to follow, separately by action and place.** No source gains authority beyond those voluntary choices. | **Appoint moderators with bundled powers.** Their decisions bind every visitor to the forum. |
 | **Remove or restore an item in one community view.** The judgment affects another person's view only when they choose to follow it. | **Remove or approve an item for the whole community.** |
