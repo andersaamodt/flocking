@@ -72,6 +72,13 @@ as well as optionality and backwards compatibility:
   people. Implementations should preserve enough thread topology to make those
   descendants intelligible; the exact placeholder and reveal interaction are
   host-application policy.
+- The signed event `created_at` is the normative portable time used to compare
+  a contribution or revision with a silence cutoff. Because Nostr does not
+  prove an objective publication time, a client may retain first-seen time as
+  inspectable local evidence and conservatively silence an apparently
+  backdated event it observed arriving after the cutoff. Without such local
+  evidence, it must fall back to the signed time. Backdating cannot evade a
+  block, which excludes activity without consulting time.
 - Source input must distinguish complete, stale, and unknown state. Missing
   relay data must not silently become an empty judgment set.
 - Counts mean distinct applicable source keys, not verified independent people
