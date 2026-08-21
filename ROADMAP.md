@@ -61,6 +61,12 @@ as well as optionality and backwards compatibility:
   retain their original chronology: clients must not generate retroactive
   notifications or present them as newly published merely because the silence
   ended.
+- Block and silence are independent author-exclusion faculties with one simple
+  difference: silence applies prospectively from its cutoff, while block also
+  excludes all past activity by the target in the applicable scope. Block
+  therefore controls visibility when both apply, without erasing the stored
+  silence judgment. Unblock and unsilence reverse only their corresponding
+  faculties; withdrawal defers that faculty to the next applicable judgment.
 - Source input must distinguish complete, stale, and unknown state. Missing
   relay data must not silently become an empty judgment set.
 - Counts mean distinct applicable source keys, not verified independent people
