@@ -1,0 +1,101 @@
+schema_version: 1
+authority: This ledger is the dependency and capability-selection arche for Flocking.
+entries:
+  - id: FLOCKING-SEMANTICS
+    parent: null
+    purpose: Represent and deterministically evaluate voluntary community-shaping judgments.
+    boundary: Owns typed semantic validation and evaluation but no network, storage, signing, clock, or UI work.
+    disposition: build
+    justification: Existing Nostr protocols do not provide the specified faculties, withdrawal, precedence, completeness, or aggregation semantics.
+    acceptance_tests: [normative-vectors, core-unit-tests]
+    review_cadence: every-major-release
+  - id: FLOCKING-NOSTR-ADAPTER
+    parent: FLOCKING-SEMANTICS
+    purpose: Translate authenticated Nostr events to and from the semantic model.
+    boundary: Owns tags, event kind, signatures, standard-event fallbacks, and mirrors but no relay transport or signing custody.
+    disposition: adapt
+    justification: The maintained nostr crate is already Hydra's Nostr type boundary and avoids a second event implementation.
+    upstream: rust-nostr/nostr
+    selected_version: 0.44
+    license: MIT
+    repository: https://github.com/rust-nostr/nostr
+    security_assumptions: Signed Event values are still verified when entering the adapter.
+    deficits: Flocking kind and tag semantics remain experimental and therefore live only in this adapter.
+    replacements: none
+    acceptance_tests: [nostr-round-trip, hostile-tag-tests, fallback-vectors]
+    review_cadence: every-minor-release
+  - id: FLOCKING-SERIALIZATION
+    parent: FLOCKING-SEMANTICS
+    purpose: Encode portable configuration, vectors, and inspectable results as JSON.
+    boundary: Serde performs syntax translation while Flocking constructors and validators retain semantic authority.
+    disposition: include
+    justification: Serde is the standard maintained Rust serialization boundary and avoids custom JSON parsing.
+    upstream: serde-rs/serde
+    selected_version: "1"
+    license: MIT OR Apache-2.0
+    repository: https://github.com/serde-rs/serde
+    security_assumptions: Deserialized values are validated before evaluation.
+    deficits: JSON Schema cannot express every cross-record v1 invariant.
+    replacements: none
+    acceptance_tests: [hostile-config-tests, schema-json-tests]
+    review_cadence: every-major-release
+  - id: FLOCKING-ADDRESS-DIGEST
+    parent: FLOCKING-SEMANTICS
+    purpose: Derive stable judgment addresses with SHA-256.
+    boundary: Hashes canonical byte material and owns no key or signature operations.
+    disposition: include
+    justification: RustCrypto supplies a small maintained SHA-256 implementation with no new protocol policy.
+    upstream: RustCrypto/hashes
+    selected_version: "sha2 0.10"
+    license: MIT OR Apache-2.0
+    repository: https://github.com/RustCrypto/hashes
+    security_assumptions: Canonical input construction remains owned and tested by flocking-core.
+    deficits: none
+    replacements: none
+    acceptance_tests: [address-vectors]
+    review_cadence: every-major-release
+  - id: FLOCKING-ERRORS
+    parent: FLOCKING-SEMANTICS
+    purpose: Present typed validation failures as factual Rust errors.
+    boundary: Derives error display and source plumbing without deciding error conditions.
+    disposition: include
+    justification: thiserror removes repetitive display boilerplate without adding runtime behavior.
+    upstream: dtolnay/thiserror
+    selected_version: "2"
+    license: MIT OR Apache-2.0
+    repository: https://github.com/dtolnay/thiserror
+    security_assumptions: none
+    deficits: none
+    replacements: handwritten Display implementations
+    acceptance_tests: [core-unit-tests]
+    review_cadence: every-major-release
+  - id: FLOCKING-CI-CHECKOUT
+    parent: null
+    purpose: Materialize the exact repository revision in GitHub-hosted verification jobs.
+    boundary: Performs read-only source checkout with repository contents permission only.
+    disposition: include
+    justification: The official checkout action is the narrow maintained GitHub Actions boundary.
+    upstream: actions/checkout
+    selected_version: 3d3c42e5aac5ba805825da76410c181273ba90b1
+    license: MIT
+    repository: https://github.com/actions/checkout
+    security_assumptions: The workflow pins the full signed-release commit and grants contents read only.
+    deficits: Runs only in GitHub-hosted CI and is not part of the shipped library.
+    replacements: manual Git protocol setup
+    acceptance_tests: [ci-verification-job]
+    review_cadence: every-major-release
+  - id: FLOCKING-CI-RUST-TOOLCHAIN
+    parent: null
+    purpose: Install the pinned minimum Rust toolchain and required lint components in CI.
+    boundary: Invokes rustup in GitHub-hosted verification and has no shipped runtime role.
+    disposition: include
+    justification: The focused action avoids maintaining a second toolchain-install implementation.
+    upstream: dtolnay/rust-toolchain
+    selected_version: 6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+    license: MIT
+    repository: https://github.com/dtolnay/rust-toolchain
+    security_assumptions: The workflow pins a full commit in the upstream master history.
+    deficits: Requires GitHub-hosted runner network access to rustup distribution servers.
+    replacements: inline rustup orchestration
+    acceptance_tests: [ci-verification-job]
+    review_cadence: every-major-release

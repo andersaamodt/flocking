@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/andersaamodt/flocking/schemas/flocking-config-1.schema.json",
+  "title": "Flocking portable configuration v1",
+  "type": "object",
+  "required": ["version", "persona", "sources"],
+  "properties": {
+    "version": { "const": "flocking-config/1" },
+    "persona": { "$ref": "#/$defs/pubkey" },
+    "sources": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/source" }
+    },
+    "local_pin_dismissals": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/dismissal" },
+      "default": []
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "pubkey": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "topic": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]{1,64}$"
+    },
+    "scopeGrant": {
+      "type": "object",
+      "required": ["global", "topics"],
+      "properties": {
+        "global": { "type": "boolean" },
+        "topics": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/topic" },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "grant": {
+      "allOf": [
+        { "$ref": "#/$defs/scopeGrant" },
+        {
+          "type": "object",
+          "required": ["faculty"],
+          "properties": {
+            "faculty": {
+              "enum": ["follow", "block", "silence", "hide", "community_membership", "pin"]
+            },
+            "rank": { "type": "integer", "minimum": 1 }
+          },
+          "if": {
+            "properties": { "faculty": { "const": "pin" } },
+            "required": ["faculty"]
+          },
+          "then": { "not": { "required": ["rank"] } },
+          "else": { "required": ["rank"] },
+          "additionalProperties": true
+        }
+      ]
+    },
+    "source": {
+      "type": "object",
+      "required": ["pubkey", "grants"],
+      "properties": {
+        "pubkey": { "$ref": "#/$defs/pubkey" },
+        "grants": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/grant" }
+        },
+        "reverse_blocks": { "$ref": "#/$defs/scopeGrant" }
+      },
+      "additionalProperties": true
+    },
+    "dismissal": {
+      "type": "object",
+      "required": ["topic", "target_type", "target"],
+      "properties": {
+        "topic": { "$ref": "#/$defs/topic" },
+        "target_type": { "enum": ["e", "a"] },
+        "target": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    }
+  }
+}

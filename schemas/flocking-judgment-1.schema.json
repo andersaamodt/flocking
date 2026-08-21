@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/andersaamodt/flocking/schemas/flocking-judgment-1.schema.json",
+  "title": "Validated Flocking judgment v1",
+  "type": "object",
+  "required": ["author", "faculty", "scope", "target", "action", "created_at", "evidence"],
+  "properties": {
+    "author": { "$ref": "#/$defs/hex32" },
+    "faculty": {
+      "enum": ["follow", "block", "silence", "hide", "community_membership", "pin"]
+    },
+    "scope": { "$ref": "#/$defs/scope" },
+    "target": { "$ref": "#/$defs/target" },
+    "action": {
+      "enum": ["follow", "unfollow", "block", "unblock", "silence", "unsilence", "hide", "unhide", "remove", "restore", "pin", "withdraw"]
+    },
+    "created_at": { "type": "integer", "minimum": 0 },
+    "event_id": { "$ref": "#/$defs/hex32" },
+    "since": { "type": "integer", "minimum": 0 },
+    "reason": {
+      "type": "string",
+      "description": "The protocol adapter additionally enforces the normative 500 UTF-8 byte limit."
+    },
+    "evidence": { "enum": ["local", "flocking_event", "nip02", "nip51"] }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "hex32": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "topic": { "type": "string", "pattern": "^[a-z0-9_]{1,64}$" },
+    "scope": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["type"],
+          "properties": { "type": { "const": "global" } },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["type", "topic"],
+          "properties": {
+            "type": { "const": "topic" },
+            "topic": { "$ref": "#/$defs/topic" }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "content": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["type", "value"],
+          "properties": {
+            "type": { "const": "event" },
+            "value": { "$ref": "#/$defs/hex32" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["type", "value"],
+          "properties": {
+            "type": { "const": "address" },
+            "value": { "type": "string", "pattern": "^[0-9]+:[0-9a-f]{64}:.*$" }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "target": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["type", "value"],
+          "properties": {
+            "type": { "const": "person" },
+            "value": { "$ref": "#/$defs/hex32" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["type", "value"],
+          "properties": {
+            "type": { "const": "content" },
+            "value": { "$ref": "#/$defs/content" }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

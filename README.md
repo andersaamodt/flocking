@@ -38,7 +38,55 @@ judgment.
 
 ## Status
 
-Flocking v1 has an authoritative experimental [specification](SPEC.md). The
-living [roadmap](ROADMAP.md) records the route from an independent reference
-library and experimental wire format to a possible NIP after multiple client
-implementations.
+Flocking v1 now has an independent Rust reference implementation and an
+authoritative experimental [specification](SPEC.md). Hydra integration remains
+the next adopter step rather than part of this library's authority.
+
+The workspace exposes two deliberately narrow crates:
+
+- `flocking-core` validates configuration and judgments, resolves current
+  state, evaluates precedence and visibility, aggregates pins, performs Reverse
+  Flocking, and constructs Rescue transactions without I/O.
+- `flocking-nostr` verifies and parses kind `30820` events, builds unsigned
+  events for host-controlled signing, adapts NIP-02 and NIP-51 fallback inputs,
+  and computes compatibility mirrors without relay access.
+
+The [schemas](schemas) describe portable JSON boundaries, and the
+[normative vectors](vectors/flocking-v1.json) are executed by the test suite.
+The living [roadmap](ROADMAP.md) records the route from this implementation to
+Hydra adoption, an independent second client, and a possible narrow NIP.
+
+## Using the library
+
+During the experimental phase, applications should use Git or path
+dependencies so the chosen specification revision remains explicit:
+
+```toml
+[dependencies]
+flocking-core = { git = "https://github.com/andersaamodt/flocking" }
+flocking-nostr = { git = "https://github.com/andersaamodt/flocking" }
+```
+
+Call `flocking_nostr::parse_judgment` at the protocol boundary, retain relay
+completeness as `SourceState`, and pass validated judgments plus local `Config`
+to `flocking_core::evaluate`. Use `evaluate_visibility`, `evaluate_pins`, and
+`evaluate_reverse` only for their named compositions.
+
+The library does not fetch relays, store configuration, read the wall clock,
+hold signing keys, publish events, choose UI behavior, or integrate with Hydra.
+
+## Verification
+
+Run the complete formatting, lint, unit, adapter, and normative-vector suite:
+
+```sh
+./.tests/run
+```
+
+The runner keeps compiled output in a temporary directory and removes it when
+the run ends.
+
+## License
+
+Flocking is free software under the GNU Affero General Public License, version
+3 or any later version. See [LICENSE](LICENSE).

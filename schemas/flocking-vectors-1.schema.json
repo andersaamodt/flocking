@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/andersaamodt/flocking/schemas/flocking-vectors-1.schema.json",
+  "title": "Flocking normative vector suite v1",
+  "type": "object",
+  "required": [
+    "version",
+    "identities",
+    "content",
+    "topic_cases",
+    "address_cases",
+    "action_cases",
+    "selection_cases",
+    "evaluation_cases",
+    "visibility_cases",
+    "pin_cases",
+    "reverse_cases",
+    "rescue",
+    "fallback_cases"
+  ],
+  "properties": {
+    "version": { "const": "flocking-vectors/1" },
+    "identities": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/hex32" }
+    },
+    "content": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/hex32" }
+    },
+    "topic_cases": { "type": "array", "minItems": 1 },
+    "address_cases": { "type": "array", "minItems": 1 },
+    "action_cases": { "type": "array", "minItems": 12 },
+    "selection_cases": { "type": "array", "minItems": 3 },
+    "evaluation_cases": { "type": "array", "minItems": 8 },
+    "visibility_cases": { "type": "array", "minItems": 6 },
+    "pin_cases": { "type": "array", "minItems": 5 },
+    "reverse_cases": { "type": "array", "minItems": 3 },
+    "rescue": { "type": "object" },
+    "fallback_cases": { "type": "array", "minItems": 5 }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "hex32": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  }
+}

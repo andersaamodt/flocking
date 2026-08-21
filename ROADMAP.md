@@ -19,16 +19,16 @@ as well as optionality and backwards compatibility:
 
 ## Road to a NIP
 
-1. Publish a versioned Flocking semantic specification.
-2. Define a small, experimental Nostr wire format for current judgments.
-3. Publish normative schemas and deterministic test vectors.
-4. Implement a pure reference evaluator with no storage, signing, relay, or UI
-   dependencies.
-5. Implement protocol adapters for standard Nostr events where their meaning
-   fits without invention.
-6. Integrate the library into Hydra as the first adopter.
-7. Validate the protocol through a second independent client implementation.
-8. Propose only the proven interoperable wire surface as a NIP.
+1. [x] Publish a versioned Flocking semantic specification.
+2. [x] Define a small, experimental Nostr wire format for current judgments.
+3. [x] Publish normative schemas and deterministic test vectors.
+4. [x] Implement a pure reference evaluator with no storage, signing, relay, or
+   UI dependencies.
+5. [x] Implement protocol adapters for standard Nostr events where their
+   meaning fits without invention.
+6. [ ] Integrate the library into Hydra as the first adopter.
+7. [ ] Validate the protocol through a second independent client implementation.
+8. [ ] Propose only the proven interoperable wire surface as a NIP.
 
 ## Required semantic decisions
 

@@ -1,0 +1,25 @@
+#!/bin/sh
+# Run every Flocking formatting, lint, schema, vector, unit, and documentation test.
+
+case "${1-}" in
+--help|--usage|-h)
+  cat <<'USAGE'
+Usage: .tests/run
+
+Runs the complete Flocking verification suite with build output outside the repository.
+USAGE
+  exit 0
+  ;;
+esac
+
+set -eu
+
+repo_dir=$(CDPATH= cd -- "$(dirname "$0")/.." && pwd -P)
+build_dir=$(mktemp -d "${TMPDIR:-/tmp}/flocking-tests.XXXXXX")
+trap 'rm -rf "$build_dir"' EXIT HUP INT TERM
+
+cd "$repo_dir"
+CARGO_TARGET_DIR=$build_dir cargo fmt --all -- --check
+CARGO_TARGET_DIR=$build_dir cargo clippy --workspace --all-targets -- -D warnings
+CARGO_TARGET_DIR=$build_dir cargo test --workspace
+RUSTDOCFLAGS=-Dwarnings CARGO_TARGET_DIR=$build_dir cargo doc --workspace --no-deps

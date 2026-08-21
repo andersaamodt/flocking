@@ -1,0 +1,404 @@
+{
+  "version": "flocking-vectors/1",
+  "identities": {
+    "alice": "0000000000000000000000000000000000000000000000000000000000000000",
+    "source1": "1111111111111111111111111111111111111111111111111111111111111111",
+    "source2": "2222222222222222222222222222222222222222222222222222222222222222",
+    "source3": "3333333333333333333333333333333333333333333333333333333333333333",
+    "bob": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "carol": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "content": {
+    "post1": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "post2": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+  },
+  "topic_cases": [
+    { "input": " Science_2 ", "expected": "science_2" },
+    { "input": "/h/science", "error": true },
+    { "input": "", "error": true },
+    { "input": "science-news", "error": true }
+  ],
+  "address_cases": [
+    {
+      "faculty": "block",
+      "scope": "global",
+      "target": "p:alice",
+      "expected": "flocking:v1:5cf24155f0ac34bceaf524f4872619247d52c9a2f40b3b6e2b3754ced330c213"
+    },
+    {
+      "faculty": "silence",
+      "scope": "topic:science",
+      "target": "p:alice",
+      "expected": "flocking:v1:ba95f7bf351bd5f776d02c00cf097ace2e9a86cd3c65467f1cff741885af7db4"
+    },
+    {
+      "faculty": "hide",
+      "scope": "topic:science",
+      "target": "e:post1",
+      "expected": "flocking:v1:08595ba517f6df1e93c4ac2cb29b2438ae3d97cf3ec10b473713df810ad471ae"
+    }
+  ],
+  "action_cases": [
+    { "faculty": "follow", "scope": "global", "target": "p:bob", "action": "follow", "valid": true },
+    { "faculty": "follow", "scope": "global", "target": "p:bob", "action": "unfollow", "valid": true },
+    { "faculty": "follow", "scope": "global", "target": "p:bob", "action": "withdraw", "valid": true },
+    { "faculty": "block", "scope": "global", "target": "p:bob", "action": "block", "valid": true },
+    { "faculty": "block", "scope": "topic:science", "target": "p:bob", "action": "unblock", "valid": true },
+    { "faculty": "block", "scope": "global", "target": "p:bob", "action": "withdraw", "valid": true },
+    { "faculty": "silence", "scope": "global", "target": "p:bob", "action": "silence", "since": 10, "valid": true },
+    { "faculty": "silence", "scope": "topic:science", "target": "p:bob", "action": "unsilence", "valid": true },
+    { "faculty": "silence", "scope": "global", "target": "p:bob", "action": "withdraw", "valid": true },
+    { "faculty": "hide", "scope": "global", "target": "e:post1", "action": "hide", "valid": true },
+    { "faculty": "hide", "scope": "topic:science", "target": "e:post1", "action": "unhide", "valid": true },
+    { "faculty": "hide", "scope": "global", "target": "e:post1", "action": "withdraw", "valid": true },
+    { "faculty": "community_membership", "scope": "topic:science", "target": "e:post1", "action": "remove", "valid": true },
+    { "faculty": "community_membership", "scope": "topic:science", "target": "e:post1", "action": "restore", "valid": true },
+    { "faculty": "community_membership", "scope": "topic:science", "target": "e:post1", "action": "withdraw", "valid": true },
+    { "faculty": "pin", "scope": "topic:science", "target": "e:post1", "action": "pin", "valid": true },
+    { "faculty": "pin", "scope": "topic:science", "target": "e:post1", "action": "withdraw", "valid": true },
+    { "faculty": "pin", "scope": "topic:science", "target": "e:post1", "action": "unhide", "valid": false },
+    { "faculty": "follow", "scope": "topic:science", "target": "p:bob", "action": "follow", "valid": false },
+    { "faculty": "silence", "scope": "global", "target": "p:bob", "action": "silence", "valid": false }
+  ],
+  "selection_cases": [
+    {
+      "name": "newest timestamp",
+      "events": [
+        { "time": 10, "id": "event2", "action": "block" },
+        { "time": 11, "id": "event3", "action": "unblock" }
+      ],
+      "expected": "event3"
+    },
+    {
+      "name": "lower event ID breaks equal timestamp tie",
+      "events": [
+        { "time": 10, "id": "event2", "action": "block" },
+        { "time": 10, "id": "event1", "action": "unblock" }
+      ],
+      "expected": "event1"
+    },
+    {
+      "name": "invalid newer event cannot displace valid",
+      "events": [
+        { "time": 10, "id": "event1", "action": "block" },
+        { "time": 11, "id": "event2", "action": "follow" }
+      ],
+      "expected": "event1"
+    }
+  ],
+  "evaluation_cases": [
+    {
+      "name": "direct topic beats direct global",
+      "context": "science",
+      "faculty": "block",
+      "target": "p:bob",
+      "judgments": [
+        { "author": "alice", "scope": "global", "action": "block", "time": 1 },
+        { "author": "alice", "scope": "topic:science", "action": "unblock", "time": 2 }
+      ],
+      "expected": { "status": "determinate", "value": false, "action": "unblock", "certainty": "current" }
+    },
+    {
+      "name": "direct global beats flocked topic",
+      "context": "science",
+      "faculty": "block",
+      "target": "p:bob",
+      "sources": [
+        { "source": "source1", "global": true, "topics": ["science"], "rank": 1 }
+      ],
+      "states": [
+        { "source": "source1", "scope": "topic:science", "completeness": "complete" }
+      ],
+      "judgments": [
+        { "author": "alice", "scope": "global", "action": "unblock", "time": 1 },
+        { "author": "source1", "scope": "topic:science", "action": "block", "time": 2 }
+      ],
+      "expected": { "status": "determinate", "value": false, "action": "unblock", "certainty": "current" }
+    },
+    {
+      "name": "flocked topic beats flocked global",
+      "context": "science",
+      "faculty": "block",
+      "target": "p:bob",
+      "sources": [
+        { "source": "source1", "global": true, "topics": ["science"], "rank": 1 }
+      ],
+      "states": [
+        { "source": "source1", "scope": "topic:science", "completeness": "complete" },
+        { "source": "source1", "scope": "global", "completeness": "complete" }
+      ],
+      "judgments": [
+        { "author": "source1", "scope": "global", "action": "block", "time": 1 },
+        { "author": "source1", "scope": "topic:science", "action": "unblock", "time": 2 }
+      ],
+      "expected": { "status": "determinate", "value": false, "action": "unblock", "certainty": "current" }
+    },
+    {
+      "name": "rank resolves flocked conflict",
+      "faculty": "block",
+      "target": "p:bob",
+      "sources": [
+        { "source": "source1", "global": true, "topics": [], "rank": 1 },
+        { "source": "source2", "global": true, "topics": [], "rank": 2 }
+      ],
+      "states": [
+        { "source": "source1", "scope": "global", "completeness": "complete" },
+        { "source": "source2", "scope": "global", "completeness": "complete" }
+      ],
+      "judgments": [
+        { "author": "source1", "scope": "global", "action": "unblock", "time": 1 },
+        { "author": "source2", "scope": "global", "action": "block", "time": 2 }
+      ],
+      "expected": { "status": "determinate", "value": false, "action": "unblock", "certainty": "current" }
+    },
+    {
+      "name": "withdrawal exposes lower precedence",
+      "faculty": "block",
+      "target": "p:bob",
+      "sources": [
+        { "source": "source1", "global": true, "topics": [], "rank": 1 },
+        { "source": "source2", "global": true, "topics": [], "rank": 2 }
+      ],
+      "states": [
+        { "source": "source1", "scope": "global", "completeness": "complete" },
+        { "source": "source2", "scope": "global", "completeness": "complete" }
+      ],
+      "judgments": [
+        { "author": "source1", "scope": "global", "action": "withdraw", "time": 3 },
+        { "author": "source2", "scope": "global", "action": "block", "time": 2 }
+      ],
+      "expected": { "status": "determinate", "value": true, "action": "block", "certainty": "current" }
+    },
+    {
+      "name": "stale source marks result stale",
+      "faculty": "block",
+      "target": "p:bob",
+      "sources": [
+        { "source": "source1", "global": true, "topics": [], "rank": 1 }
+      ],
+      "states": [
+        { "source": "source1", "scope": "global", "completeness": "stale" }
+      ],
+      "judgments": [
+        { "author": "source1", "scope": "global", "action": "block", "time": 2 }
+      ],
+      "expected": { "status": "determinate", "value": true, "action": "block", "certainty": "stale" }
+    },
+    {
+      "name": "unknown higher precedence is indeterminate",
+      "faculty": "block",
+      "target": "p:bob",
+      "sources": [
+        { "source": "source1", "global": true, "topics": [], "rank": 1 },
+        { "source": "source2", "global": true, "topics": [], "rank": 2 }
+      ],
+      "states": [
+        { "source": "source1", "scope": "global", "completeness": "unknown" },
+        { "source": "source2", "scope": "global", "completeness": "complete" }
+      ],
+      "judgments": [
+        { "author": "source2", "scope": "global", "action": "block", "time": 2 }
+      ],
+      "expected": { "status": "indeterminate" }
+    },
+    {
+      "name": "known direct answer ignores unknown lower source",
+      "faculty": "block",
+      "target": "p:bob",
+      "sources": [
+        { "source": "source1", "global": true, "topics": [], "rank": 1 }
+      ],
+      "states": [
+        { "source": "source1", "scope": "global", "completeness": "unknown" }
+      ],
+      "judgments": [
+        { "author": "alice", "scope": "global", "action": "unblock", "time": 2 }
+      ],
+      "expected": { "status": "determinate", "value": false, "action": "unblock", "certainty": "current" }
+    },
+    {
+      "name": "context free evaluation omits topic judgment",
+      "faculty": "block",
+      "target": "p:bob",
+      "judgments": [
+        { "author": "alice", "scope": "topic:science", "action": "block", "time": 2 },
+        { "author": "alice", "scope": "global", "action": "unblock", "time": 1 }
+      ],
+      "expected": { "status": "determinate", "value": false, "action": "unblock", "certainty": "current" }
+    },
+    {
+      "name": "multi topic membership is contextual",
+      "context": "biology",
+      "faculty": "community_membership",
+      "target": "e:post1",
+      "judgments": [
+        { "author": "alice", "scope": "topic:science", "action": "remove", "time": 2 },
+        { "author": "alice", "scope": "topic:biology", "action": "restore", "time": 1 }
+      ],
+      "expected": { "status": "determinate", "value": false, "action": "restore", "certainty": "current" }
+    }
+  ],
+  "visibility_cases": [
+    {
+      "name": "silence preserves earlier contribution",
+      "judgments": [
+        { "faculty": "silence", "action": "silence", "since": 10 }
+      ],
+      "created_at": 9,
+      "first_seen": 9,
+      "eligible": true
+    },
+    {
+      "name": "silence excludes new revision",
+      "judgments": [
+        { "faculty": "silence", "action": "silence", "since": 10 }
+      ],
+      "created_at": 11,
+      "first_seen": 11,
+      "exclusion": "silence"
+    },
+    {
+      "name": "local timing evidence catches backdating",
+      "judgments": [
+        { "faculty": "silence", "action": "silence", "since": 10 }
+      ],
+      "created_at": 1,
+      "first_seen": 12,
+      "exclusion": "silence_local"
+    },
+    {
+      "name": "unsilence restores interval eligibility",
+      "judgments": [
+        { "faculty": "silence", "action": "unsilence" }
+      ],
+      "created_at": 11,
+      "first_seen": 11,
+      "eligible": true
+    },
+    {
+      "name": "block dominates but silence remains effective",
+      "judgments": [
+        { "faculty": "block", "action": "block" },
+        { "faculty": "silence", "action": "silence", "since": 10 }
+      ],
+      "created_at": 11,
+      "exclusion": "block",
+      "silence_effective": true
+    },
+    {
+      "name": "descendant by another author remains eligible",
+      "judgments": [
+        { "faculty": "block", "action": "block" }
+      ],
+      "author": "carol",
+      "created_at": 11,
+      "eligible": true
+    }
+  ],
+  "pin_cases": [
+    {
+      "name": "count before recency",
+      "pins": [
+        { "source": "source1", "target": "post1", "time": 2 },
+        { "source": "source2", "target": "post1", "time": 3 },
+        { "source": "source3", "target": "post2", "time": 9 }
+      ],
+      "expected": ["post1", "post2"],
+      "counts": [2, 1]
+    },
+    {
+      "name": "recency breaks equal support",
+      "pins": [
+        { "source": "source1", "target": "post1", "time": 2 },
+        { "source": "source2", "target": "post2", "time": 3 }
+      ],
+      "expected": ["post2", "post1"],
+      "counts": [1, 1]
+    },
+    {
+      "name": "local dismissal hides inherited pin",
+      "dismissed": ["post1"],
+      "pins": [
+        { "source": "source1", "target": "post1", "time": 2 },
+        { "source": "source2", "target": "post2", "time": 3 }
+      ],
+      "expected": ["post2"],
+      "counts": [1]
+    },
+    {
+      "name": "ineligible pin is latent",
+      "ineligible": ["post1"],
+      "pins": [
+        { "source": "source1", "target": "post1", "time": 2 },
+        { "source": "source2", "target": "post2", "time": 3 }
+      ],
+      "expected": ["post2"],
+      "counts": [1]
+    },
+    {
+      "name": "latent pin reactivates when eligibility returns",
+      "pins": [
+        { "source": "source1", "target": "post1", "time": 2 }
+      ],
+      "expected": ["post1"],
+      "counts": [1]
+    },
+    {
+      "name": "unknown source makes support incomplete",
+      "unknown": ["source3"],
+      "pins": [
+        { "source": "source1", "target": "post1", "time": 2 }
+      ],
+      "expected": ["post1"],
+      "counts": [1],
+      "incomplete": ["source3"]
+    }
+  ],
+  "reverse_cases": [
+    {
+      "name": "deduplicate target and count blockers",
+      "blocks": [
+        { "source": "source1", "target": "bob", "time": 2 },
+        { "source": "source2", "target": "bob", "time": 3 },
+        { "source": "source3", "target": "carol", "time": 9 }
+      ],
+      "expected": ["bob", "carol"],
+      "counts": [2, 1]
+    },
+    {
+      "name": "newest blocker breaks equal count",
+      "blocks": [
+        { "source": "source1", "target": "bob", "time": 2 },
+        { "source": "source2", "target": "carol", "time": 3 }
+      ],
+      "expected": ["carol", "bob"],
+      "counts": [1, 1]
+    },
+    {
+      "name": "unknown blocker source makes count incomplete",
+      "unknown": ["source3"],
+      "blocks": [
+        { "source": "source1", "target": "bob", "time": 2 }
+      ],
+      "expected": ["bob"],
+      "counts": [1],
+      "incomplete": ["source3"]
+    }
+  ],
+  "rescue": {
+    "persona": "alice",
+    "target": "bob",
+    "scope": "topic:science",
+    "follow_action": "follow",
+    "follow_scope": "global",
+    "unblock_action": "unblock",
+    "unblock_scope": "topic:science"
+  },
+  "fallback_cases": [
+    { "name": "NIP-02 membership is positive follow", "kind": 3, "faculty": "follow", "action": "follow" },
+    { "name": "NIP-02 absence is no judgment", "kind": 3, "absence": true },
+    { "name": "NIP-51 membership is positive block", "kind": 10000, "faculty": "block", "action": "block" },
+    { "name": "NIP-51 absence is no judgment", "kind": 10000, "absence": true },
+    { "name": "canonical withdrawal suppresses fallback", "canonical_action": "withdraw", "fallback_action": "block", "expected": "withdraw" }
+  ]
+}

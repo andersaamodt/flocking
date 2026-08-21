@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/andersaamodt/flocking/schemas/flocking-nostr-event-1.schema.json",
+  "title": "Flocking Nostr event envelope v1",
+  "description": "Structural preflight only; semantic tag uniqueness, tuple validity, address recomputation, event ID, and signature require the protocol adapter.",
+  "type": "object",
+  "required": ["id", "pubkey", "created_at", "kind", "tags", "content", "sig"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "pubkey": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "created_at": { "type": "integer", "minimum": 0 },
+    "kind": { "const": 30820 },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "minItems": 1,
+        "items": { "type": "string" }
+      },
+      "contains": { "prefixItems": [{ "const": "v" }, { "const": "flocking/1" }] }
+    },
+    "content": { "type": "string" },
+    "sig": { "type": "string", "pattern": "^[0-9a-f]{128}$" }
+  },
+  "additionalProperties": false
+}
