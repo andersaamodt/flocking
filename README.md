@@ -88,5 +88,5 @@ the run ends.
 
 ## License
 
-Flocking is free software under the GNU Affero General Public License, version
-3 or any later version. See [LICENSE](LICENSE).
+Flocking is available under the Open Wizardry License 3.1. See
+[LICENSE](LICENSE).
