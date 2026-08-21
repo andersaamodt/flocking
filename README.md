@@ -24,7 +24,7 @@ publishing.
 
 | Flocking action | Traditional moderator action |
 | --- | --- |
-| **Follow** a community shaped by judgments you choose. | **Join** a community whose membership is the same for everyone. |
+| **Follow** other users *(Nostr-native)*. | **Join** a community whose membership is the same for everyone. |
 | **Remove** items for yourself and those who follow your removals. | **Remove** items for everyone. |
 | **Block** users for yourself and those who follow your blocks. | **Ban** users for everyone. |
 | **Silence** users for yourself and those who follow your silences. | **Mute** users for everyone. |
