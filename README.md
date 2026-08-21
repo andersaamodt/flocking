@@ -24,11 +24,11 @@ publishing.
 
 | Action | Flocking action | Traditional moderator action |
 | --- | --- | --- |
-| **Join** | Choose whose judgments shape your view. | Accept the forum's appointed moderators. |
-| **Remove** | Remove or restore in a chosen community view. | Remove or approve for the whole community. |
-| **Block** | Block or unblock in one community or everywhere. | Ban or unban from a community or site. |
-| **Silence** | Silence or unsilence from a chosen time onward. | Mute or temporarily ban for everyone. |
-| **Hide** | Hide or unhide in your own view. | Delete or suppress for everyone. |
+| **Join** | Join communities shaped by judgments you choose. | Join communities shaped by appointed moderators. |
+| **Remove** | Remove items for yourself and those who follow your removals. | Remove items for everyone. |
+| **Block** | Block users for yourself and those who follow your blocks. | Ban users for everyone. |
+| **Silence** | Silence users for yourself and those who follow your silences. | Mute users for everyone. |
+| **Hide** | Hide items for yourself and those who follow your hides. | Delete items for everyone. |
 | **Pin** | Pin items for yourself and those who follow your pins. | Pin items for everyone. |
 
 Flocking also carries ordinary follow and unfollow judgments, which need not
