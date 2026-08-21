@@ -46,6 +46,10 @@ as well as optionality and backwards compatibility:
 
 - Pins are an explicit aggregation exception rather than an accidental second
   conflict algorithm.
+- Silence is prospective from the publication time of the effective silence
+  judgment. Beginning to flock after that source later does not move the
+  cutoff: contributions before the source's judgment remain unsilenced, while
+  contributions after it are silenced.
 - Source input must distinguish complete, stale, and unknown state. Missing
   relay data must not silently become an empty judgment set.
 - Counts mean distinct applicable source keys, not verified independent people
