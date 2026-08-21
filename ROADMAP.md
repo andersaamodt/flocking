@@ -56,6 +56,11 @@ as well as optionality and backwards compatibility:
   client may omit the object or show a provenance-bearing placeholder rather
   than expose the silenced revision. This prevents evasion by replacing the
   contents of an old object.
+- When the effective silence ends, contributions and revisions from the silent
+  interval become eligible again unless another judgment excludes them. They
+  retain their original chronology: clients must not generate retroactive
+  notifications or present them as newly published merely because the silence
+  ended.
 - Source input must distinguish complete, stale, and unknown state. Missing
   relay data must not silently become an empty judgment set.
 - Counts mean distinct applicable source keys, not verified independent people
