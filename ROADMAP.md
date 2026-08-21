@@ -46,6 +46,10 @@ as well as optionality and backwards compatibility:
 
 - Pins are an explicit aggregation exception rather than an accidental second
   conflict algorithm.
+- A direct unpin is an affirmative veto over every flock-derived pin for the
+  same item and scope. It removes the item only from the user's pinned area,
+  not from the community or other views. Withdrawing the direct unpin restores
+  ordinary flock-derived pin aggregation without altering source provenance.
 - Silence is prospective from the publication time of the effective silence
   judgment. Beginning to flock after that source later does not move the
   cutoff: contributions before the source's judgment remain unsilenced, while
