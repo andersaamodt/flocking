@@ -24,15 +24,12 @@ publishing.
 
 | Flocking action | Traditional moderator action |
 | --- | --- |
-| **Follow** a community shaped by judgments you choose. | **Join** a community shaped by appointed moderators. |
+| **Follow** people and let others adopt your follows. | **Join** a community whose membership is the same for everyone. |
 | **Remove** items for yourself and those who follow your removals. | **Remove** items for everyone. |
 | **Block** users for yourself and those who follow your blocks. | **Ban** users for everyone. |
 | **Silence** users for yourself and those who follow your silences. | **Mute** users for everyone. |
 | **Hide** items for yourself and those who follow your hides. | **Delete** items for everyone. |
 | **Pin** items for yourself and those who follow your pins. | **Pin** items for everyone. |
-
-Flocking can also adopt another person's follows and unfollows, but these do
-not make anyone a community member or moderator.
 
 ### Block and silence
 
