@@ -15,10 +15,28 @@ space. Flocking turns those published claims into voluntarily shared practice.
 
 Publication is the moment an individual judgment enters the social field.
 
-## Block and silence
+## Actions
 
-Block and silence exclude activity by the same target, but they differ in
-time:
+Applications can present flocking as ordinary actions. A local action changes
+the actor's view; publishing makes an inspectable judgment that others may
+voluntarily adopt. No action deletes a Nostr event or prevents its author from
+publishing.
+
+| flocking action | Traditional moderator action |
+| --- | --- |
+| **Choose whose judgments to follow, separately by action and place.** No source gains authority beyond those voluntary choices. | **Appoint moderators with bundled powers.** Their decisions bind every visitor to the forum. |
+| **Remove or restore an item in one community view.** The judgment affects another person's view only when they choose to follow it. | **Remove or approve an item for the whole community.** |
+| **Block or unblock a person in one community or everywhere.** Their events remain published but leave the chosen view. | **Ban or unban a person from a community or the site.** |
+| **Silence or unsilence a person from a chosen time onward.** Earlier activity remains eligible. | **Mute, time out, or temporarily ban a person for everyone.** |
+| **Hide or unhide one item in a chosen view.** | **Delete or suppress the item for everyone.** |
+| **Pin an item or withdraw your own pin.** Followed pins combine rather than becoming official. | **Sticky or unsticky the official items shown to everyone.** |
+
+Flocking also carries ordinary follow and unfollow judgments, which need not
+represent community membership or moderator status.
+
+### Block and silence
+
+Block and silence exclude activity by the same person, but they differ in time:
 
 - A block excludes the target's past and future activity in the applicable
   scope while the block is effective.
@@ -31,10 +49,6 @@ silence by backdating a new event. That false timestamp is visible to everyone,
 not only the person applying the silence, and clients may use locally recorded
 first-seen time as contrary evidence. Backdating cannot evade a block because
 a block does not consult event time.
-
-Neither action deletes Nostr events or prevents the target from publishing.
-They determine the effective view of the person applying or flocking after the
-judgment.
 
 ## Status
 
