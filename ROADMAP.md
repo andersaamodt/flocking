@@ -50,6 +50,12 @@ as well as optionality and backwards compatibility:
   judgment. Beginning to flock after that source later does not move the
   cutoff: contributions before the source's judgment remain unsilenced, while
   contributions after it are silenced.
+- A newly signed edit or revision after the silence cutoff is a future
+  contribution and is silenced. A pre-cutoff revision of the same object may
+  remain visible when available. If no pre-cutoff revision is available, the
+  client may omit the object or show a provenance-bearing placeholder rather
+  than expose the silenced revision. This prevents evasion by replacing the
+  contents of an old object.
 - Source input must distinguish complete, stale, and unknown state. Missing
   relay data must not silently become an empty judgment set.
 - Counts mean distinct applicable source keys, not verified independent people
