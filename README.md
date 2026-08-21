@@ -24,13 +24,16 @@ publishing.
 
 | Flocking action | Traditional moderator action |
 | --- | --- |
-| **Follow** a community shaped by judgments you choose. | **Join** a community shaped by appointed moderators. |
+| **Follow** a community shaped by judgments you choose. | **Join** a community whose membership is the same for everyone. |
 | **Remove** items for yourself and those who follow your removals. | **Remove** items for everyone. |
 | **Block** users for yourself and those who follow your blocks. | **Ban** users for everyone. |
 | **Silence** users for yourself and those who follow your silences. | **Mute** users for everyone. |
 | **Hide** items for yourself and those who follow your hides. | **Delete** items for everyone. |
 | **Pin** items for yourself and those who follow your pins. | **Pin** items for everyone. |
-| **Apply** another person's whole authored follow state as a reversible overlay. | **None:** traditional moderation has no equivalent. |
+
+You can also follow another person's follows. Their own follows and unfollows
+are applied to your view as a reversible overlay, without changing your
+personal follow list or copying follows they inherited from others.
 
 ### Block and silence
 
