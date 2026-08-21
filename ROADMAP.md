@@ -53,6 +53,11 @@ as well as optionality and backwards compatibility:
   the local dismissal restores ordinary aggregation. Persistent unwanted pins
   are handled by ceasing to follow that source's pins, while content exclusion
   belongs to the appropriate hide or removal faculty.
+- Flock-derived pins rank first by the number of distinct applicable sources
+  currently pinning the item. Equal support is resolved by the newest active
+  pin judgment, not the content's publication time, so newly renewed attention
+  can elevate old material. A canonical target identifier breaks any remaining
+  tie deterministically.
 - Silence is prospective from the publication time of the effective silence
   judgment. Beginning to flock after that source later does not move the
   cutoff: contributions before the source's judgment remain unsilenced, while
@@ -174,17 +179,16 @@ is complete.
 
 ## Decision queue
 
-Resolve these questions one at a time before freezing the v1 wire format:
+Complete before freezing the v1 wire format:
 
-1. Silence and unsilence across time, edits, and withdrawal.
-2. Canonical topic normalization and whether non-topic community identifiers
-   belong in v1.
-3. Pin, unpin, withdrawal, direct vetoes, and aggregation.
-4. Exact target identity for immutable and addressable content.
-5. Standard-event compatibility and mirroring rules.
-6. Event addressing, tags, tie-breaking, and reasons.
-7. Completeness and freshness contracts at the library boundary.
-8. Portable local Flocking configuration.
+- [x] Silence and unsilence across time, edits, withdrawal, and blocks.
+- [x] Canonical topic normalization and v1 scope forms.
+- [x] Pin, unpin, local dismissal, aggregation, and recency.
+- [ ] Exact target identity for immutable and addressable content.
+- [ ] Standard-event compatibility and mirroring rules.
+- [ ] Event addressing, tags, tie-breaking, and reasons.
+- [ ] Completeness and freshness contracts at the library boundary.
+- [ ] Portable local Flocking configuration.
 
 ## Language about familiar forums
 
