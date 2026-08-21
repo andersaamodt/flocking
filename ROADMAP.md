@@ -95,6 +95,13 @@ For ownerless topic communities, the canonical identifier is a normalized bare
 topic such as `science`. Paths such as `/h/science` and `/r/science` are views or
 projections of that topic, not different Flocking communities.
 
+Flocking v1 uses Hydra's existing bare-topic normalization: trim surrounding
+whitespace, lowercase ASCII letters, accept only `a-z`, `0-9`, and `_`, require
+at least one character, and limit the result to 64 characters. Paths are not
+valid identifiers. Broader hashtags remain ordinary descriptive tags rather
+than automatically becoming communities; applications may attach a more
+expressive display name to a canonical community slug.
+
 The initial protocol should specify topic normalization exactly. It should not
 make Hydra paths, Reddit paths, a NIP-72 owner coordinate, or a NIP-29 relay
 group the canonical identity of an ownerless topic. Adapters may map those
