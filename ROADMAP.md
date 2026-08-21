@@ -165,17 +165,17 @@ Existing NIPs should be reused or mirrored where they faithfully preserve
 meaning. They should not be stretched until unlike judgments appear
 equivalent.
 
-## Proposed wire shape
+## V1 wire shape
 
-The leading candidate is one addressable current-state event per:
+The specification defines one addressable current-state event per:
 
 `author x faculty x scope x target`
 
 The stable address does not change when the judgment becomes positive,
 negative, or withdrawn. This permits atomic updates, explicit inverses,
 per-target recency, stable provenance, and deterministic current-state
-selection. Exact event kind and tags remain undecided until the semantic model
-is complete.
+selection. The exact experimental event, tags, address derivation, and
+selection rules are defined in [the v1 specification](SPEC.md).
 
 ## Decision queue
 
@@ -184,11 +184,11 @@ Complete before freezing the v1 wire format:
 - [x] Silence and unsilence across time, edits, withdrawal, and blocks.
 - [x] Canonical topic normalization and v1 scope forms.
 - [x] Pin, unpin, local dismissal, aggregation, and recency.
-- [ ] Exact target identity for immutable and addressable content.
-- [ ] Standard-event compatibility and mirroring rules.
-- [ ] Event addressing, tags, tie-breaking, and reasons.
-- [ ] Completeness and freshness contracts at the library boundary.
-- [ ] Portable local Flocking configuration.
+- [x] Exact target identity for immutable and addressable content.
+- [x] Standard-event compatibility and mirroring rules.
+- [x] Event addressing, tags, tie-breaking, and reasons.
+- [x] Completeness and freshness contracts at the library boundary.
+- [x] Portable local Flocking configuration.
 
 ## Language about familiar forums
 

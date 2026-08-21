@@ -38,7 +38,7 @@ judgment.
 
 ## Status
 
-Flocking is currently in semantic design. The living [roadmap](ROADMAP.md)
-records the route from an independent reference library and experimental wire
-format to a possible NIP after multiple client implementations.
-
+Flocking v1 has an authoritative experimental [specification](SPEC.md). The
+living [roadmap](ROADMAP.md) records the route from an independent reference
+library and experimental wire format to a possible NIP after multiple client
+implementations.
