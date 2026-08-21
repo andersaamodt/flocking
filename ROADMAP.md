@@ -101,6 +101,12 @@ group the canonical identity of an ownerless topic. Adapters may map those
 external structures to a bare topic only when the host application explicitly
 knows that the mapping is valid.
 
+A community-scoped judgment affects only a rendering in that bare-topic
+context. The same multi-topic object may therefore be excluded in `science`
+while remaining eligible in `biology`, a profile, search, or a context-free
+direct view. A global judgment applies across those contexts. The judgment
+never mutates the underlying object's universal visibility.
+
 ## Why existing NIPs are insufficient
 
 - [NIP-02](https://github.com/nostr-protocol/nips/blob/master/02.md) follow lists
