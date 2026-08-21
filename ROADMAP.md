@@ -129,11 +129,11 @@ Resolve these questions one at a time before freezing the v1 wire format:
 
 ## Language about familiar forums
 
-Flocking does not produce objective group membership. It reconstructs much of
-the embodied experience of an objective forum: people can enter the same named
-place, encounter largely shared boundaries, and understand what belongs there,
-while every boundary remains the result of inspectable and revocable choices
-about whose judgments to follow.
+Flocking does not produce objective group membership. It partially reconstructs
+the practical function and embodied experience of objective membership:
+people can inhabit something recognizably like the same forum--the same named
+place, with a largely shared sense of who and what belongs there--without
+making any person's judgment authoritative for everyone.
 
 The familiar objective forum is therefore a possible convergent experience,
 not Flocking's constitutional starting point.
