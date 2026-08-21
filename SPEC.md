@@ -367,6 +367,23 @@
 - Two visible pin slots are the recommended default.
 - Additional eligible pins SHOULD remain inspectable through an expansion.
 
+## Community appearance behavior
+
+- A community appearance is one person's current image choice for one bare topic.
+- A direct appearance choice overrides all followed appearance sources for that viewer.
+- Without a direct choice, identical image hashes aggregate support from distinct explicitly selected sources.
+- Appearance support MUST NOT be counted from people the viewer did not select for this purpose.
+- Equal support is resolved by newest current choice and then by canonical image metadata.
+- A withdrawal is a newer replaceable appearance event with no image metadata.
+- A topic name remains its normalized bare identifier and MUST NOT be replaced by appearance metadata.
+- An image reference MUST include an HTTPS URL, SHA-256 hash, MIME type, dimensions, and alt text.
+- Clients MUST verify downloaded image bytes against the declared SHA-256 hash before display.
+- Clients SHOULD generate a deterministic local identicon when no effective appearance is available.
+- Community appearance event kind `30821` is addressable by the bare topic in its `d` tag.
+- Community appearance events MUST carry `v`, `t`, and `j` tags using the canonical Flocking version and topic.
+- A set event MUST carry exactly one `url`, `x`, `m`, `dim`, and `alt` tag.
+- A withdrawal event MUST NOT carry image metadata tags.
+
 ## Reverse Flocking
 
 - Reverse Flocking treats selected sources' current blocks as positive discovery inputs.

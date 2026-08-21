@@ -184,6 +184,7 @@ Complete before freezing the v1 wire format:
 - [x] Silence and unsilence across time, edits, withdrawal, and blocks.
 - [x] Canonical topic normalization and v1 scope forms.
 - [x] Pin, unpin, local dismissal, aggregation, and recency.
+- [x] Ownerless community appearance records, direct preference, and selected-source convergence.
 - [x] Exact target identity for immutable and addressable content.
 - [x] Standard-event compatibility and mirroring rules.
 - [x] Event addressing, tags, tie-breaking, and reasons.

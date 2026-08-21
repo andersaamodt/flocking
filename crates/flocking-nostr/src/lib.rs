@@ -4,13 +4,13 @@
 use std::collections::BTreeSet;
 
 use flocking_core::{
-    Action, ContentTarget, EventId, Faculty, Judgment, JudgmentEvidence, PublicKey, Scope, Target,
-    Topic,
+    Action, CommunityAppearance, CommunityImage, ContentTarget, EventId, Faculty, Judgment,
+    JudgmentEvidence, PublicKey, Scope, Target, Topic,
 };
 use nostr::{Event, EventBuilder, Kind, Tag, Timestamp};
 use thiserror::Error;
 
-pub use flocking_core::{JUDGMENT_KIND, PROTOCOL_VERSION};
+pub use flocking_core::{COMMUNITY_APPEARANCE_KIND, JUDGMENT_KIND, PROTOCOL_VERSION};
 
 /// A malformed, unsupported, or unauthentic Nostr boundary value.
 #[derive(Debug, Error)]
@@ -43,6 +43,8 @@ pub enum Error {
     InvalidCutoff,
     #[error("Nostr tag construction failed")]
     TagConstruction,
+    #[error("community appearance image metadata is invalid: {0}")]
+    InvalidAppearance(&'static str),
     #[error(transparent)]
     Core(#[from] flocking_core::Error),
 }
@@ -161,6 +163,102 @@ pub fn judgment_event_builder(judgment: &Judgment) -> Result<EventBuilder, Error
     .tags(tags)
     .custom_created_at(Timestamp::from_secs(judgment.created_at))
     .allow_self_tagging())
+}
+
+/// Parses one signed, addressable community-appearance choice.
+///
+/// # Errors
+///
+/// Returns an error for an invalid signature, version, topic address, action, or image metadata.
+pub fn parse_community_appearance(event: &Event) -> Result<CommunityAppearance, Error> {
+    if event.kind.as_u16() != COMMUNITY_APPEARANCE_KIND {
+        return Err(Error::WrongKind);
+    }
+    event.verify().map_err(|_| Error::InvalidSignature)?;
+    if one(event, "v")? != PROTOCOL_VERSION {
+        return Err(Error::UnknownVersion);
+    }
+    let topic = Topic::parse(one(event, "t")?)?;
+    if one(event, "d")? != topic.as_str() {
+        return Err(flocking_core::Error::AddressMismatch.into());
+    }
+    let image = match one(event, "j")? {
+        "withdraw" => {
+            if ["url", "x", "m", "dim", "alt"]
+                .into_iter()
+                .any(|tag| count(event, tag) != 0)
+            {
+                return Err(Error::InvalidAppearance(
+                    "withdrawal contains image metadata",
+                ));
+            }
+            None
+        }
+        "set" => {
+            let dimensions = one(event, "dim")?
+                .split_once('x')
+                .ok_or(Error::InvalidAppearance("dimensions must be WIDTHxHEIGHT"))?;
+            let image = CommunityImage {
+                sha256: EventId::parse(one(event, "x")?)?,
+                url: one(event, "url")?.to_owned(),
+                mime_type: one(event, "m")?.to_owned(),
+                width: dimensions
+                    .0
+                    .parse()
+                    .map_err(|_| Error::InvalidAppearance("width is invalid"))?,
+                height: dimensions
+                    .1
+                    .parse()
+                    .map_err(|_| Error::InvalidAppearance("height is invalid"))?,
+                alt: one(event, "alt")?.to_owned(),
+            };
+            image.validate().map_err(Error::InvalidAppearance)?;
+            Some(image)
+        }
+        _ => return Err(Error::UnknownAction),
+    };
+    let appearance = CommunityAppearance {
+        author: PublicKey::parse(event.pubkey.to_string())?,
+        topic,
+        image,
+        created_at: event.created_at.as_secs(),
+        event_id: Some(EventId::parse(event.id.to_string())?),
+    };
+    appearance.validate().map_err(Error::InvalidAppearance)?;
+    Ok(appearance)
+}
+
+/// Builds the unsigned replaceable event for one person's current topic image choice.
+///
+/// # Errors
+///
+/// Returns an error when the appearance or a generated Nostr tag is invalid.
+pub fn community_appearance_event_builder(
+    appearance: &CommunityAppearance,
+) -> Result<EventBuilder, Error> {
+    appearance.validate().map_err(Error::InvalidAppearance)?;
+    let mut tags = vec![
+        tag(["d", appearance.topic.as_str()])?,
+        tag(["v", PROTOCOL_VERSION])?,
+        tag(["t", appearance.topic.as_str()])?,
+    ];
+    if let Some(image) = &appearance.image {
+        tags.extend([
+            tag(["j", "set"])?,
+            tag(["url", image.url.as_str()])?,
+            tag(["x", image.sha256.as_str()])?,
+            tag(["m", image.mime_type.as_str()])?,
+            tag(["dim", format!("{}x{}", image.width, image.height).as_str()])?,
+            tag(["alt", image.alt.as_str()])?,
+        ]);
+    } else {
+        tags.push(tag(["j", "withdraw"])?);
+    }
+    Ok(
+        EventBuilder::new(Kind::Custom(COMMUNITY_APPEARANCE_KIND), "")
+            .tags(tags)
+            .custom_created_at(Timestamp::from_secs(appearance.created_at)),
+    )
 }
 
 /// Adapts membership in one current NIP-02 kind-3 list to fallback follows.
@@ -330,6 +428,32 @@ mod tests {
             .unwrap()
             .sign_with_keys(keys)
             .unwrap()
+    }
+
+    #[test]
+    fn community_appearance_round_trips_with_content_identity_and_alt_text() {
+        let keys = Keys::generate();
+        let choice = CommunityAppearance {
+            author: PublicKey::parse(keys.public_key().to_string()).unwrap(),
+            topic: Topic::parse("science").unwrap(),
+            image: Some(CommunityImage {
+                sha256: EventId::parse("ab".repeat(32)).unwrap(),
+                url: "https://cdn.example/science.png".into(),
+                mime_type: "image/png".into(),
+                width: 256,
+                height: 256,
+                alt: "A blue atom".into(),
+            }),
+            created_at: 42,
+            event_id: None,
+        };
+        let event = community_appearance_event_builder(&choice)
+            .unwrap()
+            .sign_with_keys(&keys)
+            .unwrap();
+        let parsed = parse_community_appearance(&event).unwrap();
+        assert_eq!(parsed.image.unwrap().alt, "A blue atom");
+        assert_eq!(parsed.topic.as_str(), "science");
     }
 
     #[test]
