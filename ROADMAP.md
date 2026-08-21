@@ -67,6 +67,11 @@ as well as optionality and backwards compatibility:
   therefore controls visibility when both apply, without erasing the stored
   silence judgment. Unblock and unsilence reverse only their corresponding
   faculties; withdrawal defers that faculty to the next applicable judgment.
+- Block and silence apply only to contributions authored by their target. They
+  do not automatically exclude replies or other descendants authored by other
+  people. Implementations should preserve enough thread topology to make those
+  descendants intelligible; the exact placeholder and reveal interaction are
+  host-application policy.
 - Source input must distinguish complete, stale, and unknown state. Missing
   relay data must not silently become an empty judgment set.
 - Counts mean distinct applicable source keys, not verified independent people
