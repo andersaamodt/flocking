@@ -31,8 +31,8 @@ publishing.
 | **Hide** items for yourself and those who follow your hides. | **Delete** items for everyone. |
 | **Pin** items for yourself and those who follow your pins. | **Pin** items for everyone. |
 
-Flocking also carries ordinary follow and unfollow judgments, which need not
-represent community membership or moderator status.
+Flocking can also adopt another person's follows and unfollows, but these do
+not make anyone a community member or moderator.
 
 ### Block and silence
 
