@@ -103,7 +103,9 @@ pub fn evaluate_appearance(input: AppearanceInput<'_>) -> AppearanceResult {
             current.insert(&choice.author, choice);
         }
     }
-    if let Some(choice) = current.get(input.persona) {
+    if let Some(choice) = current.get(input.persona)
+        && choice.image.is_some()
+    {
         return AppearanceResult {
             image: choice.image.clone(),
             direct: true,
@@ -112,15 +114,21 @@ pub fn evaluate_appearance(input: AppearanceInput<'_>) -> AppearanceResult {
         };
     }
 
-    let mut support: BTreeMap<&CommunityImage, (BTreeSet<PublicKey>, u64)> = BTreeMap::new();
+    let mut support: BTreeMap<EventId, (BTreeSet<PublicKey>, u64, CommunityImage)> =
+        BTreeMap::new();
     for source in input.selected_sources {
         let Some(choice) = current.get(source) else {
             continue;
         };
         let Some(image) = &choice.image else { continue };
-        let entry = support.entry(image).or_default();
+        let entry = support
+            .entry(image.sha256.clone())
+            .or_insert_with(|| (BTreeSet::new(), choice.created_at, image.clone()));
         entry.0.insert(source.clone());
         entry.1 = entry.1.max(choice.created_at);
+        if image < &entry.2 {
+            entry.2 = image.clone();
+        }
     }
     let selected = support.into_iter().max_by(|left, right| {
         left.1
@@ -128,12 +136,15 @@ pub fn evaluate_appearance(input: AppearanceInput<'_>) -> AppearanceResult {
             .len()
             .cmp(&right.1.0.len())
             .then_with(|| left.1.1.cmp(&right.1.1))
-            .then_with(|| right.0.cmp(left.0))
+            .then_with(|| right.1.2.cmp(&left.1.2))
+            .then_with(|| right.0.cmp(&left.0))
     });
     AppearanceResult {
-        image: selected.as_ref().map(|(image, _)| (*image).clone()),
+        image: selected.as_ref().map(|(_, (_, _, image))| image.clone()),
         direct: false,
-        sources: selected.map_or_else(Vec::new, |(_, (sources, _))| sources.into_iter().collect()),
+        sources: selected.map_or_else(Vec::new, |(_, (sources, _, _))| {
+            sources.into_iter().collect()
+        }),
         incomplete_sources: input
             .selected_sources
             .difference(input.complete_sources)
@@ -203,5 +214,31 @@ mod tests {
         });
         assert!(result.direct);
         assert_eq!(result.image.unwrap().sha256, id('3'));
+    }
+
+    #[test]
+    fn equal_hashes_aggregate_despite_metadata_and_direct_withdrawal_reveals_them() {
+        let persona = key('a');
+        let sources = BTreeSet::from([key('b'), key('c')]);
+        let complete = sources.clone();
+        let first = image('1');
+        let mut alternate = first.clone();
+        alternate.url = "https://cdn.example/other.png".into();
+        alternate.alt = "Alternate description".into();
+        let choices = vec![
+            choice('a', None, 10),
+            choice('b', Some(first.clone()), 1),
+            choice('c', Some(alternate), 2),
+        ];
+        let result = evaluate_appearance(AppearanceInput {
+            persona: &persona,
+            topic: &Topic::parse("science").unwrap(),
+            selected_sources: &sources,
+            complete_sources: &complete,
+            appearances: &choices,
+        });
+        assert!(!result.direct);
+        assert_eq!(result.sources.len(), 2);
+        assert_eq!(result.image.unwrap().sha256, id('1'));
     }
 }

@@ -403,6 +403,7 @@ fn normative_precedence_and_completeness() {
                     reverse_blocks: None,
                 })
                 .collect(),
+            appearance_sources: BTreeSet::new(),
             local_pin_dismissals: Vec::new(),
         };
         let judgments = case
@@ -578,6 +579,7 @@ fn empty_config(resolver: &Resolver<'_>) -> Config {
         version: CONFIG_VERSION.to_owned(),
         persona: resolver.person("alice"),
         sources: Vec::new(),
+        appearance_sources: BTreeSet::new(),
         local_pin_dismissals: Vec::new(),
     }
 }
@@ -606,6 +608,7 @@ fn normative_pins() {
                     reverse_blocks: None,
                 })
                 .collect(),
+            appearance_sources: BTreeSet::new(),
             local_pin_dismissals: case
                 .dismissed
                 .iter()
@@ -719,6 +722,7 @@ fn normative_reverse_and_rescue() {
                     }),
                 })
                 .collect(),
+            appearance_sources: BTreeSet::new(),
             local_pin_dismissals: Vec::new(),
         };
         let judgments = case

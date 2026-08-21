@@ -11,6 +11,12 @@
       "type": "array",
       "items": { "$ref": "#/$defs/source" }
     },
+    "appearance_sources": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/pubkey" },
+      "uniqueItems": true,
+      "default": []
+    },
     "local_pin_dismissals": {
       "type": "array",
       "items": { "$ref": "#/$defs/dismissal" },

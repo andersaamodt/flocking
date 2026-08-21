@@ -10,6 +10,9 @@ pub struct Config {
     pub version: String,
     pub persona: PublicKey,
     pub sources: Vec<Source>,
+    /// People whose current community-image choices this persona follows.
+    #[serde(default, skip_serializing_if = "BTreeSet::is_empty")]
+    pub appearance_sources: BTreeSet<PublicKey>,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub local_pin_dismissals: Vec<LocalPinDismissal>,
 }
@@ -60,6 +63,11 @@ impl Config {
                     });
                 }
             }
+        }
+        if self.appearance_sources.contains(&self.persona) {
+            return Err(Error::InvalidConfig(
+                "a persona cannot follow its own appearance choices".to_owned(),
+            ));
         }
         Ok(())
     }
@@ -219,6 +227,7 @@ mod tests {
                     reverse_blocks: None,
                 },
             ],
+            appearance_sources: BTreeSet::new(),
             local_pin_dismissals: Vec::new(),
         };
         assert_eq!(

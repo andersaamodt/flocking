@@ -156,6 +156,7 @@ mod tests {
                     .collect(),
                 reverse_blocks: None,
             }],
+            appearance_sources: BTreeSet::new(),
             local_pin_dismissals: Vec::new(),
         }
     }

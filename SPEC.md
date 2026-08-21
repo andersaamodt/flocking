@@ -375,6 +375,8 @@
 - Appearance support MUST NOT be counted from people the viewer did not select for this purpose.
 - Equal support is resolved by newest current choice and then by canonical image metadata.
 - A withdrawal is a newer replaceable appearance event with no image metadata.
+- A direct withdrawal restores resolution from followed appearance sources.
+- Sources declaring the same hash contribute support even when their delivery metadata differs.
 - A topic name remains its normalized bare identifier and MUST NOT be replaced by appearance metadata.
 - An image reference MUST include an HTTPS URL, SHA-256 hash, MIME type, dimensions, and alt text.
 - Clients MUST verify downloaded image bytes against the declared SHA-256 hash before display.

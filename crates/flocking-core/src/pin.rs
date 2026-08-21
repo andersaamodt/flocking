@@ -261,6 +261,7 @@ mod tests {
                     reverse_blocks: None,
                 })
                 .collect(),
+            appearance_sources: BTreeSet::new(),
             local_pin_dismissals: dismissals,
         }
     }
