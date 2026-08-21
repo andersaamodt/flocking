@@ -24,12 +24,13 @@ publishing.
 
 | Flocking action | Traditional moderator action |
 | --- | --- |
-| **Follow** people and let others adopt your follows. | **Join** a community whose membership is the same for everyone. |
+| **Follow** a community shaped by judgments you choose. | **Join** a community shaped by appointed moderators. |
 | **Remove** items for yourself and those who follow your removals. | **Remove** items for everyone. |
 | **Block** users for yourself and those who follow your blocks. | **Ban** users for everyone. |
 | **Silence** users for yourself and those who follow your silences. | **Mute** users for everyone. |
 | **Hide** items for yourself and those who follow your hides. | **Delete** items for everyone. |
 | **Pin** items for yourself and those who follow your pins. | **Pin** items for everyone. |
+| **Apply** another person's whole authored follow state as a reversible overlay. | **None:** traditional moderation has no equivalent. |
 
 ### Block and silence
 
