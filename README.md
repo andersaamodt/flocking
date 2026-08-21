@@ -39,10 +39,9 @@ personal follow list or copying follows they inherited from others.
 
 Block and silence exclude activity by the same person, but they differ in time:
 
-- A block excludes the target's past and future activity in the applicable
-  scope while the block is effective.
-- A silence excludes contributions and revisions at or after its cutoff while
-  the silence is effective, leaving earlier activity eligible.
+- A block hides all activity, past and future.
+- A silence hides activity from its cutoff onward, leaving earlier activity
+  alone.
 
 Nostr events contain an author-controlled signed `created_at` time rather than
 an objectively proven publication time. An author can therefore try to evade a
