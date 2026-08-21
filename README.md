@@ -24,12 +24,12 @@ publishing.
 
 | Flocking action | Traditional moderator action |
 | --- | --- |
-| **Choose whose judgments to follow, separately by action and place.** No source gains authority beyond those voluntary choices. | **Appoint moderators with bundled powers.** Their decisions bind every visitor to the forum. |
-| **Remove or restore an item in one community view.** The judgment affects another person's view only when they choose to follow it. | **Remove or approve an item for the whole community.** |
-| **Block or unblock a person in one community or everywhere.** Their events remain published but leave the chosen view. | **Ban or unban a person from a community or the site.** |
-| **Silence or unsilence a person from a chosen time onward.** Earlier activity remains eligible. | **Mute, time out, or temporarily ban a person for everyone.** |
-| **Hide or unhide one item in a chosen view.** | **Delete or suppress the item for everyone.** |
-| **Pin an item or withdraw your own pin.** Followed pins combine rather than becoming official. | **Sticky or unsticky the official items shown to everyone.** |
+| Choose whose judgments to follow separately by action and place, giving no source authority beyond those voluntary choices. | Appoint moderators with bundled powers whose decisions bind every visitor to the forum. |
+| Remove or restore an item in one community view, affecting another person's view only when they choose to follow the judgment. | Remove or approve an item for the whole community. |
+| Block or unblock a person in one community or everywhere, leaving their events published but outside the chosen view. | Ban or unban a person from a community or the site. |
+| Silence or unsilence a person from a chosen time onward while leaving earlier activity eligible. | Mute, time out, or temporarily ban a person for everyone. |
+| Hide or unhide one item in a chosen view. | Delete or suppress the item for everyone. |
+| Pin an item or withdraw your own pin, allowing followed pins to combine without becoming official. | Sticky or unsticky the official items shown to everyone. |
 
 Flocking also carries ordinary follow and unfollow judgments, which need not
 represent community membership or moderator status.
