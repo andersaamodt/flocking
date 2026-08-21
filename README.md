@@ -22,14 +22,14 @@ the actor's view; publishing makes an inspectable judgment that others may
 voluntarily adopt. No action deletes a Nostr event or prevents its author from
 publishing.
 
-| Flocking action | Traditional moderator action |
-| --- | --- |
-| Follow chosen judgments by action and place. | Make binding judgments for everyone. |
-| Remove or restore in a chosen community view. | Remove or approve for the whole community. |
-| Block or unblock in one community or everywhere. | Ban or unban from a community or site. |
-| Silence or unsilence from a chosen time onward. | Mute or temporarily ban for everyone. |
-| Hide or unhide in your own view. | Delete or suppress for everyone. |
-| Pin an item or withdraw your own pin. | Set the official pinned items. |
+| Action | Flocking action | Traditional moderator action |
+| --- | --- | --- |
+| **Join** | Choose whose judgments shape your view. | Accept the forum's appointed moderators. |
+| **Remove** | Remove or restore in a chosen community view. | Remove or approve for the whole community. |
+| **Block** | Block or unblock in one community or everywhere. | Ban or unban from a community or site. |
+| **Silence** | Silence or unsilence from a chosen time onward. | Mute or temporarily ban for everyone. |
+| **Hide** | Hide or unhide in your own view. | Delete or suppress for everyone. |
+| **Pin** | Pin an item or withdraw your own pin. | Set the official pinned items. |
 
 Flocking also carries ordinary follow and unfollow judgments, which need not
 represent community membership or moderator status.
