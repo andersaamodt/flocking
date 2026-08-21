@@ -29,7 +29,7 @@ publishing.
 | **Block** | Block or unblock in one community or everywhere. | Ban or unban from a community or site. |
 | **Silence** | Silence or unsilence from a chosen time onward. | Mute or temporarily ban for everyone. |
 | **Hide** | Hide or unhide in your own view. | Delete or suppress for everyone. |
-| **Pin** | Pin an item or withdraw your own pin. | Set the official pinned items. |
+| **Pin** | Pin items for yourself and those who follow your pins. | Pin items for everyone. |
 
 Flocking also carries ordinary follow and unfollow judgments, which need not
 represent community membership or moderator status.
