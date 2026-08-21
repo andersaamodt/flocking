@@ -1,4 +1,4 @@
-# Flocking
+# flocking
 
 **Flocking is the voluntary following of another user's published
 community-shaping judgments, allowing shared spaces to acquire increasingly
