@@ -26,7 +26,7 @@ as well as optionality and backwards compatibility:
    UI dependencies.
 5. [x] Implement protocol adapters for standard Nostr events where their
    meaning fits without invention.
-6. [ ] Integrate the library into Hydra as the first adopter.
+6. [x] Integrate the library into Hydra as the first adopter.
 7. [ ] Validate the protocol through a second independent client implementation.
 8. [ ] Propose only the proven interoperable wire surface as a NIP.
 
