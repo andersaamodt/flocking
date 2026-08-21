@@ -108,6 +108,12 @@ group the canonical identity of an ownerless topic. Adapters may map those
 external structures to a bare topic only when the host application explicitly
 knows that the mapping is valid.
 
+Flocking v1 has exactly two scope forms: `global` and a canonical bare topic.
+It does not directly encode NIP-29 groups, NIP-72 coordinates, relay-owned
+spaces, or arbitrary application scope strings. Those systems may be mapped by
+an explicit host adapter when appropriate; additional typed scope forms require
+a demonstrated future use case.
+
 A community-scoped judgment affects only a rendering in that bare-topic
 context. The same multi-topic object may therefore be excluded in `science`
 while remaining eligible in `biology`, a profile, search, or a context-free
