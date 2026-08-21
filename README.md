@@ -37,11 +37,13 @@ personal follow list or copying follows they inherited from others.
 
 ### Block and silence
 
-Block and silence exclude activity by the same person, but they differ in time:
+Block and silence differ by time:
 
 - A block hides all activity, past and future.
 - A silence hides activity from its cutoff onward, leaving earlier activity
   alone.
+
+A block therefore takes precedence over a silence while it is in effect.
 
 Nostr events contain an author-controlled signed `created_at` time rather than
 an objectively proven publication time. An author can therefore try to evade a
