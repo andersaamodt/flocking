@@ -55,22 +55,26 @@ a block does not consult event time.
 ## Status
 
 Flocking v1 now has an independent Rust reference implementation and an
-authoritative experimental [specification](SPEC.md). Hydra integration remains
-the next adopter step rather than part of this library's authority.
+authoritative experimental [specification](SPEC.md). Hydra is its first adopter
+while this library remains the authority for Flocking's meaning.
+
+The unnumbered [candidate NIP](NIP.md), titled *Flocking: Voluntary
+Community-Shaping Judgments*, presents the interoperable wire surface in the
+format used by the Nostr NIPs repository.
 
 The workspace exposes two deliberately narrow crates:
 
 - `flocking-core` validates configuration and judgments, resolves current
   state, evaluates precedence and visibility, aggregates pins, performs Reverse
   Flocking, and constructs Rescue transactions without I/O.
-- `flocking-nostr` verifies and parses kind `30820` events, builds unsigned
-  events for host-controlled signing, adapts NIP-02 and NIP-51 fallback inputs,
-  and computes compatibility mirrors without relay access.
+- `flocking-nostr` verifies and parses kinds `30820` and `30821`, builds
+  unsigned events for host-controlled signing, adapts NIP-02 and NIP-51
+  fallback inputs, and computes compatibility mirrors without relay access.
 
 The [schemas](schemas) describe portable JSON boundaries, and the
 [normative vectors](vectors/flocking-v1.json) are executed by the test suite.
-The living [roadmap](ROADMAP.md) records the route from this implementation to
-Hydra adoption, an independent second client, and a possible narrow NIP.
+The living [roadmap](ROADMAP.md) records the route from Hydra adoption through
+an independent second client to submission of the candidate NIP.
 
 ## Using the library
 
