@@ -24,12 +24,12 @@ publishing.
 
 | Flocking action | Traditional moderator action |
 | --- | --- |
-| Choose whose judgments to follow separately by action and place, giving no source authority beyond those voluntary choices. | Appoint moderators with bundled powers whose decisions bind every visitor to the forum. |
-| Remove or restore an item in one community view, affecting another person's view only when they choose to follow the judgment. | Remove or approve an item for the whole community. |
-| Block or unblock a person in one community or everywhere, leaving their events published but outside the chosen view. | Ban or unban a person from a community or the site. |
-| Silence or unsilence a person from a chosen time onward while leaving earlier activity eligible. | Mute, time out, or temporarily ban a person for everyone. |
-| Hide or unhide one item in a chosen view. | Delete or suppress the item for everyone. |
-| Pin an item or withdraw your own pin, allowing followed pins to combine without becoming official. | Sticky or unsticky the official items shown to everyone. |
+| Follow chosen judgments by action and place. | Make binding judgments for everyone. |
+| Remove or restore in a chosen community view. | Remove or approve for the whole community. |
+| Block or unblock in one community or everywhere. | Ban or unban from a community or site. |
+| Silence or unsilence from a chosen time onward. | Mute or temporarily ban for everyone. |
+| Hide or unhide in your own view. | Delete or suppress for everyone. |
+| Pin an item or withdraw your own pin. | Set the official pinned items. |
 
 Flocking also carries ordinary follow and unfollow judgments, which need not
 represent community membership or moderator status.
